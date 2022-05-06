@@ -7,3 +7,7 @@
 ### [2. Plotting](math/0x01-plotting/README.md)
 
 ### [3. Probability](math/0x03-probability/README.md)
+
+## [Supervised learning](supervised_learning/README.md)
+
+### [1. Classification](supervised_learning/0x01-classification/README.md)
