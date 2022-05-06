@@ -35,30 +35,25 @@ class DeepNeuralNetwork:
         if nx < 1:
             raise ValueError("nx must be a positive integer")
 
-        if (
-            type(layers) is not list
-            or any(list(map(lambda x: x <= 0, layers)))
-            or len(layers) == 0
-        ):
+        if type(layers) is not list:
+            raise TypeError("layers must be a list of positive integers")
+
+        if any(list(map(lambda x: x <= 0, layers))):
+            raise TypeError("layers must be a list of positive integers")
+
+        if len(layers) == 0:
             raise TypeError("layers must be a list of positive integers")
 
         self.L = len(layers)
 
-        # Initialize weights and cache for each layer
         for layer_nb in range(self.L):
             current_layer = layers[layer_nb]
 
-            # Initialize weights for first layer
-            # weights[0] is the weights between the input
-            # and the first hidden layer
             if layer_nb == 0:
                 self.weights["W" + str(layer_nb + 1)] = np.random.randn(
                     current_layer, nx
                 ) * np.sqrt(2 / nx)
 
-            # Initialize weights for other layers
-            # weights[1] is the weights between the first hidden layer
-            # and the next hidden layer
             else:
                 previous_layer = layers[layer_nb - 1]
                 self.weights["W" + str(layer_nb + 1)] = np.random.randn(
