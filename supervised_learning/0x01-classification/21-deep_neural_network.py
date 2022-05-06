@@ -173,6 +173,7 @@ class DeepNeuralNetwork:
         """
 
         m = Y.shape[1]
+        weights = self.__weights.copy()
 
         for layer_index in range(self.__L, 0, -1):
             A = cache["A" + str(layer_index)]
@@ -181,12 +182,14 @@ class DeepNeuralNetwork:
                 dz = A - Y
             else:
                 dz = np.multiply(
-                    np.dot(self.__weights["W" + str(layer_index + 1)].T, dz),
+                    np.dot(weights["W" + str(layer_index + 1)].T, dz),
                     A * (1 - A),
                 )
 
             dw = 1 / m * np.dot(dz, cache["A" + str(layer_index - 1)].T)
             db = 1 / m * np.sum(dz, axis=1, keepdims=True)
 
-            self.__weights["W" + str(layer_index)] -= alpha * dw
-            self.__weights["b" + str(layer_index)] -= alpha * db
+            self.__weights["W" + str(layer_index)] = weights[
+                "W" + str(layer_index)] - alpha * dw
+            self.__weights["b" + str(layer_index)] = weights[
+                "b" + str(layer_index)] - alpha * db
