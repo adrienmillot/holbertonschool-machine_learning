@@ -11,3 +11,5 @@
 ## [Supervised learning](supervised_learning/README.md)
 
 ### [1. Classification](supervised_learning/0x01-classification/README.md)
+
+### [2. Tensorflow](supervised_learning/0x02-tensorflow/README.md)
