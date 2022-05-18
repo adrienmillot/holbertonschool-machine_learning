@@ -5,3 +5,5 @@
 ## [1. Classification](0x01-classification/README.md)
 
 ## [2. Tensorflow](0x02-tensorflow/README.md)
+
+## [3. Optimization](0x03-optimization/README.md)
