@@ -1,10 +1,56 @@
 #!/usr/bin/env python3
 """
-    Creates the model
+    Model Building,Training & Saving Module
 """
 
 import tensorflow.compat.v1 as tf
 import numpy as np
+
+
+def forward_prop(prev, layers, activations, epsilon):
+    """
+        Creates forward propgation with batch normalization
+        for a neural network in tensorflow.
+
+        Args:
+            prev (tensor): The activated output of the previous layer.
+            layers (list): List containing the number of nodes in each
+            layer of the network.
+            activations (list): The activation function list that should be
+            used on the output of the layer.
+            epsilon (int): A small number used to avoid division by zero.
+
+        Returns:
+            tensor: A tensor of the activated output for the neural network.
+    """
+    initializer = tf.keras.initializers.VarianceScaling(mode='fan_avg')
+    batch_norm_outputs = prev
+
+    for index in range(len(layers) - 1):
+        layer = tf.keras.layers.Dense(units=layers[index],
+                                      kernel_initializer=initializer)
+
+        mean, variance = tf.nn.moments(layer(batch_norm_outputs), axes=[0])
+
+        gamma = tf.Variable(tf.ones(layers[index]), trainable=True)
+        beta = tf.Variable(tf.zeros(layers[index]), trainable=True)
+
+        batch_norm = tf.nn.batch_normalization(layer(batch_norm_outputs),
+                                               mean=mean,
+                                               variance=variance,
+                                               offset=beta,
+                                               scale=gamma,
+                                               variance_epsilon=epsilon)
+
+        batch_norm_outputs = activations[index](batch_norm)
+
+    output_layer = tf.keras.layers.Dense(layers[-1],
+                                         activation=None,
+                                         kernel_initializer=initializer)
+
+    NN_output = output_layer(batch_norm_outputs)
+
+    return NN_output
 
 
 def create_placeholders(nx, classes):
@@ -20,8 +66,8 @@ def create_placeholders(nx, classes):
             y: placeholder for the input labels
     """
 
-    x = tf.placeholder(tf.float32, [None, nx.shape[1]], name='x')
-    y = tf.placeholder(tf.float32, [None, classes.shape[1]], name='y')
+    x = tf.placeholder("float", [None, nx.shape[1]], name='x')
+    y = tf.placeholder("float", [None, classes.shape[1]], name='y')
 
     return x, y
 
@@ -101,49 +147,6 @@ def learning_rate_decay(alpha, decay_rate, global_step, decay_step):
     return tf.train.inverse_time_decay(
         alpha, global_step, decay_step, decay_rate, staircase=True
     )
-
-
-def forward_prop(prev, layers, activations, epsilon):
-    """
-        Creates the forward propagation graph
-
-        Args:
-            prev: a tensorflow tensor that is the output of the previous layer
-            layers: a list of integers that represent the number of nodes in
-                    each layer
-            activations: a list of strings that represent the activation
-                         functions for each layer
-            epsilon: small number used to avoid division by zero
-
-        Returns:
-            Z: a list of tensorflow tensors that are the output of each layer
-    """
-
-    initializer = tf.keras.initializers.VarianceScaling(mode='fan_avg')
-
-    for index in range(len(layers) - 1):
-        layer = tf.keras.layers.Dense(units=layers[index],
-                                      kernel_initializer=initializer)
-
-        mean, variance = tf.nn.moments(layer(prev), axes=[0])
-
-        gamma = tf.Variable(tf.ones(layers[index]), trainable=True)
-        beta = tf.Variable(tf.zeros(layers[index]), trainable=True)
-
-        batch_norm = tf.nn.batch_normalization(layer(prev),
-                                               mean=mean,
-                                               variance=variance,
-                                               offset=beta,
-                                               scale=gamma,
-                                               variance_epsilon=epsilon)
-
-        batch_norm_outputs = activations[index](batch_norm)
-
-    output_layer = tf.keras.layers.Dense(layers[-1],
-                                         activation=None,
-                                         kernel_initializer=initializer)
-
-    return output_layer(batch_norm_outputs)
 
 
 def shuffle_data(X, Y):
@@ -283,6 +286,7 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
                     print("\tStep {}:".format(step + 1))
                     print("\t\tCost: {}".format(step_cost))
                     print("\t\tAccuracy: {}".format(step_accuracy))
+            session.run(tf.assign(global_step, global_step + 1))
 
         # save and return the path to where the model was saved
         return store.save(session, save_path)
