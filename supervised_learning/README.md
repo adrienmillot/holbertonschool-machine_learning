@@ -7,3 +7,5 @@
 ## [2. Tensorflow](0x02-tensorflow/README.md)
 
 ## [3. Optimization](0x03-optimization/README.md)
+
+## [4. Error Analysis](0x04-error_analysis/README.md)

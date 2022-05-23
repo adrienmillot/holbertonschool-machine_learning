@@ -15,3 +15,5 @@
 ### [2. Tensorflow](supervised_learning/0x02-tensorflow/README.md)
 
 ### [3. Optimization](supervised_learning/0x03-optimization/README.md)
+
+### [4. Error Analysis](supervised_learning/0x04-error_analysis/README.md)
