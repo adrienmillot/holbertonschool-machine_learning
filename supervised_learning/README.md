@@ -9,3 +9,5 @@
 ## [3. Optimization](0x03-optimization/README.md)
 
 ## [4. Error Analysis](0x04-error_analysis/README.md)
+
+## [5. Regularization](0x05-regularization/README.md)

@@ -17,3 +17,5 @@
 ### [3. Optimization](supervised_learning/0x03-optimization/README.md)
 
 ### [4. Error Analysis](supervised_learning/0x04-error_analysis/README.md)
+
+### [5. Regularization](supervised_learning/0x05-regularization/README.md)
