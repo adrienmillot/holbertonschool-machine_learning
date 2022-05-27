@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+    Adam Optimization
+"""
 
 import tensorflow.compat.v1 as tf
 
