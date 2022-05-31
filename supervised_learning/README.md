@@ -11,3 +11,5 @@
 ## [4. Error Analysis](0x04-error_analysis/README.md)
 
 ## [5. Regularization](0x05-regularization/README.md)
+
+## [6. Keras](0x06-keras/README.md)

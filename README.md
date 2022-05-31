@@ -19,3 +19,5 @@
 ### [4. Error Analysis](supervised_learning/0x04-error_analysis/README.md)
 
 ### [5. Regularization](supervised_learning/0x05-regularization/README.md)
+
+### [6. Keras](supervised_learning/0x06-keras/README.md)
