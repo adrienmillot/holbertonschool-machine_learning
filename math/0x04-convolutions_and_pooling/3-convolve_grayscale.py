@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-    This script demonstrates how to use the convolve_grayscale function
+    Performs a convolution on grayscale images
 """
 
 import numpy as np
@@ -28,14 +28,25 @@ def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
     image_nb, image_height, image_width = images.shape
     kernel_height, kernel_width = kernel.shape
     stride_height, stride_width = stride
-    img_size = np.arange(image_nb)
+    image_size = np.arange(image_nb)
 
+    # Calculate the padding height and width
     if padding == 'same':
-        padding_height = max(
-            (image_height - 1) * stride[0] + kernel_height - image_height, 0
+        padding_height = int(
+            (
+                (
+                    (image_height - 1) * stride_height +
+                    kernel_height - image_height
+                ) / 2
+            ) + 1
         )
-        padding_width = max(
-            (image_width - 1) * stride[1] + kernel_width - image_width, 0
+        padding_width = int(
+            (
+                (
+                    (image_width - 1) * stride_width +
+                    kernel_width - image_width
+                ) / 2
+            ) + 1
         )
     elif padding == 'valid':
         padding_height = 0
@@ -43,23 +54,38 @@ def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
     else:
         padding_height, padding_width = padding
 
+    # Calculate the output height and width
     convoluted_height = int(
-        ((image_height + 2 * padding_height - kernel_height) / stride_height) + 1)
+        (image_height - kernel_height + 2 * padding_height) / stride_height + 1
+    )
     convoluted_width = int(
-        ((image_width + 2 * padding_width - kernel_width) / stride_width) + 1)
+        (image_width - kernel_width + 2 * padding_width) / stride_width + 1
+    )
 
-    padding = np.pad(images, ((0, 0), (padding_height, padding_height),
-                     (padding_width, padding_width)), 'constant')
+    # Add padding to the images
+    padding = np.pad(
+        images,
+        pad_width=(
+            (0, 0),
+            (padding_height, padding_height),
+            (padding_width, padding_width)
+        ),
+        mode='constant',
+    )
 
+    # Create a new matrice to hold the padded images
     convoluted_images = np.zeros(
         (image_nb, convoluted_height, convoluted_width))
 
     for row in range(convoluted_height):
-        for colum in range(convoluted_width):
-            s_row = row * stride_height
-            s_column = colum * stride_width
-            window = padding[img_size, s_row:kernel_height +
-                             s_row, s_column:kernel_width+s_column]
-            convoluted_images[img_size, row, colum] = np.sum(
-                window * kernel, axis=(1, 2))
+        for column in range(convoluted_width):
+            input_image = padding[
+                image_size,
+                row * stride[0]: row * stride[0] + kernel_height,
+                column * stride[1]: column * stride[1] + kernel_width
+            ]
+            convoluted_images[image_size, row, column] = np.sum(
+                input_image * kernel,
+                axis=(1, 2)
+            )
     return convoluted_images
