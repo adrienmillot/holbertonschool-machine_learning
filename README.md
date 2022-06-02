@@ -8,6 +8,8 @@
 
 ### [3. Probability](math/0x03-probability/README.md)
 
+### [4. Convolutions and pooling](math/0x04-convolutions_and_pooling/README.md)
+
 ## [Supervised learning](supervised_learning/README.md)
 
 ### [1. Classification](supervised_learning/0x01-classification/README.md)
