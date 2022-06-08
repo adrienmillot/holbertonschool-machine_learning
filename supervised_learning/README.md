@@ -13,3 +13,5 @@
 ## [5. Regularization](0x05-regularization/README.md)
 
 ## [6. Keras](0x06-keras/README.md)
+
+## [7. CNN](0x07-cnn/README.md)
