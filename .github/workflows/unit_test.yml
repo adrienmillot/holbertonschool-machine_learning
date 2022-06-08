@@ -1,0 +1,28 @@
+name: "Unit testing"
+
+on: [push]
+
+jobs:
+  unit_test:
+    name: Unit testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        if: ${{ steps.filter.outputs.py_modified == 'true' }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.0
+          architecture: x64
+          cache: 'pip'
+      - name: Install dependencies  
+        if: ${{ steps.filter.outputs.py_modified == 'true' }}  
+        run: pip install -r .requirements.txt
+      - name: "Unit testing"
+        run: |
+          if [ -d "tests" ]; then
+            python3 -m unittest discover -s tests -p "*_test.py"
+          else
+            printf "No tests found\n"
+          fi
+          exit $?
