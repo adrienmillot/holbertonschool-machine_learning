@@ -25,3 +25,5 @@
 ### [6. Keras](supervised_learning/0x06-keras/README.md)
 
 ### [7. Keras](supervised_learning/0x07-cnn/README.md)
+
+### [8. Deep Convolutional Architectures](supervised_learning/0x08-deep_cnns/README.md)
