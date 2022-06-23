@@ -27,3 +27,5 @@
 ### [7. Keras](supervised_learning/0x07-cnn/README.md)
 
 ### [8. Deep Convolutional Architectures](supervised_learning/0x08-deep_cnns/README.md)
+
+### [9. Transfer learning](supervised_learning/0x09-transfer_learning/README.md)
