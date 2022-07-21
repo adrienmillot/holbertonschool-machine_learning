@@ -10,6 +10,8 @@
 
 ### [4. Convolutions and pooling](math/0x04-convolutions_and_pooling/README.md)
 
+### [5. Advanced linear algebra](math/0x05-advanced_linear_algebra/README.md)
+
 ## [Supervised learning](supervised_learning/README.md)
 
 ### [1. Classification](supervised_learning/0x01-classification/README.md)
